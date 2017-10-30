@@ -1,0 +1,52 @@
+ext {
+
+    // Support Libraries
+    supportLibraryVersion       = '25.4.0'
+
+    // Dagger 2
+    daggerVersion               = '2.8'
+
+    // RxJava
+    rxJava2Version              = '2.1.1'
+    rxAndroidVersion            = '2.0.1'
+
+    // Network
+    retrofitVersion             = '2.3.0'
+    okHttp3Version              = '3.9.0'
+
+    // Monitoring
+    leakCanaryVersion           = '1.5.4'
+
+    // Testing
+    junitVersion                = '4.12'
+    espressoVersion             = '3.0.1'
+
+
+    dependencies = [
+
+            appCompat               : "com.android.support:appcompat-v7:$supportLibraryVersion",
+            recyclerView            : "com.android.support:recyclerview-v7:$supportLibraryVersion",
+            supportV4               : "com.android.support:support-v4:$supportLibraryVersion",
+            supportDesign           : "com.android.support:design:$supportLibraryVersion",
+
+            dagger2                 : "com.google.dagger:dagger:$daggerVersion",
+            dagger2Apt              : "com.google.dagger:dagger-compiler:$daggerVersion",
+
+            rxJava2                 : "io.reactivex.rxjava2:rxjava:$rxJava2Version",
+            rxAndroid               : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+
+            retrofit                : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            okHttp3                 : "com.squareup.okhttp3:okhttp:$okHttp3Version",
+            retrofitRxJava2Adapter  : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+            retrofitGsonConversion  : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            okHttp3Interceptor      : "com.squareup.okhttp3:logging-interceptor:$okHttp3Version",
+
+            leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
+            leakCanaryRelease       : "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion",
+
+            junit                   : "junit:junit:$junitVersion",
+            testRunner             : "com.android.support.test:runner:0.4.1",
+            espresso                : "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    ]
+
+}

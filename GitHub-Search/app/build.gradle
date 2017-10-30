@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def globalConf = rootProject.ext
+
+android {
+    compileSdkVersion globalConf.androidTargetSdkVersion
+    defaultConfig {
+        applicationId globalConf.androidApplicationId
+        minSdkVersion globalConf.androidMinSdkVersion
+        targetSdkVersion globalConf.androidTargetSdkVersion
+        versionCode globalConf.versionCode
+        versionName globalConf.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    Map<String, String> dependencies = globalConf.dependencies;
+
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    // Android support libraries
+    implementation dependencies.appCompat
+    implementation dependencies.recyclerView
+    implementation dependencies.supportV4
+    implementation dependencies.supportDesign
+
+    // Dagger 2
+    implementation dependencies.dagger2
+    annotationProcessor dependencies.dagger2Apt
+
+    // RxJava
+    implementation dependencies.rxJava2
+    implementation dependencies.rxAndroid
+
+    // Network
+    implementation dependencies.retrofit
+    implementation dependencies.okHttp3
+    implementation dependencies.retrofitRxJava2Adapter
+    implementation dependencies.retrofitGsonConversion
+    implementation dependencies.okHttp3Interceptor
+
+    // Monitoring
+    debugImplementation dependencies.leakCanaryDebug
+    releaseImplementation dependencies.leakCanaryRelease
+
+    // Testing
+    testImplementation dependencies.junit
+    androidTestImplementation(dependencies.testRunner) {
+        exclude module: 'support-annotations'
+    }
+}
