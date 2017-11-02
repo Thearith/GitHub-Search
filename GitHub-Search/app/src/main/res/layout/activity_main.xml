@@ -35,22 +35,6 @@
         android:visibility="gone"
         app:text="@string/message_error"/>
 
-    <TextView
-        android:id="@+id/tv_search_count"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:padding="@dimen/search_item_padding"/>
-
-    <View
-        android:id="@+id/tv_search_count_border"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/search_item_padding"
-        android:layout_marginRight="@dimen/search_item_padding"
-        android:background="@color/colorDivider"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rc_search"
         android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package com.astro.astro.views.utils
 import android.app.Activity
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
+import android.support.annotation.StringRes
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -27,3 +28,6 @@ fun View.setVisibility(visible : Boolean) {
 
 fun RecyclerView.isAtBottom() =
         !ViewCompat.canScrollVertically(this, 1)
+
+fun RecyclerView.ViewHolder.getString(@StringRes stringRes: Int) =
+        itemView.context.getString(stringRes)

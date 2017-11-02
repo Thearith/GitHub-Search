@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.SearchView
-import android.widget.TextView
 import com.astro.astro.views.utils.bindView
 import com.astro.astro.views.utils.isAtBottom
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
@@ -29,8 +28,6 @@ class MainActivity : BaseActivity(), MainContract.View {
     // Views
     private val mSearchView : SearchView            by bindView(R.id.search_view)
     private val mSearchRecyclerView : RecyclerView  by bindView(R.id.rc_search)
-    private val mSearchCountTextView : TextView     by bindView(R.id.tv_search_count)
-    private val mSearchCountBorder : View           by bindView(R.id.tv_search_count_border)
     private val mWelcomeView : LogoWithTextView     by bindView(R.id.view_welcome)
     private val mErrorView : LogoWithTextView       by bindView(R.id.view_error)
     private val mNoResultView : LogoWithTextView    by bindView(R.id.view_empty_result)
@@ -136,8 +133,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         mWelcomeView.visibility = View.VISIBLE
         mErrorView.visibility = View.GONE
         mNoResultView.visibility = View.GONE
-        mSearchCountTextView.visibility = View.GONE
-        mSearchCountBorder.visibility = View.GONE
         mSearchRecyclerView.visibility = View.GONE
     }
 
@@ -145,8 +140,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         mWelcomeView.visibility = View.GONE
         mErrorView.visibility = View.GONE
         mNoResultView.visibility = View.GONE
-        mSearchCountTextView.visibility = View.VISIBLE
-        mSearchCountBorder.visibility = View.VISIBLE
         mSearchRecyclerView.visibility = View.VISIBLE
 
         showLoading(true)
@@ -164,8 +157,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         mWelcomeView.visibility = View.GONE
         mErrorView.visibility = View.GONE
         mNoResultView.visibility = View.GONE
-        mSearchCountTextView.visibility = View.VISIBLE
-        mSearchCountBorder.visibility = View.VISIBLE
         mSearchRecyclerView.visibility = View.VISIBLE
 
         showResultCount(response.response?.totalCount)
@@ -173,10 +164,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun showResultCount(count : Int?) {
-        val resultStr = getString(R.string.search_result_repo_count)
-        val resultCount = count?.formatWithCommas()
-        val result = String.format(resultStr, resultCount)
-        mSearchCountTextView.text = result
+        mSearchAdapter.addHeaderCount(count)
     }
 
     private fun populateList(response : GitHubSearchModel?) {
@@ -188,8 +176,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         mWelcomeView.visibility = View.GONE
         mErrorView.visibility = View.GONE
         mNoResultView.visibility = View.VISIBLE
-        mSearchCountTextView.visibility = View.GONE
-        mSearchCountBorder.visibility = View.GONE
         mSearchRecyclerView.visibility = View.GONE
     }
 
@@ -197,8 +183,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         mWelcomeView.visibility = View.GONE
         mErrorView.visibility = View.VISIBLE
         mNoResultView.visibility = View.GONE
-        mSearchCountTextView.visibility = View.GONE
-        mSearchCountBorder.visibility = View.GONE
         mSearchRecyclerView.visibility = View.GONE
     }
 
