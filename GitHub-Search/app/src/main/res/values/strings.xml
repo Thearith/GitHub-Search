@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GitHub-Search</string>
+
+    <string name="message_welcome">Welcome to GitHub Search.\n Search your favorite repo</string>
+    <string name="message_empty_result">Search result is empty</string>
+    <string name="message_error">Oops! Something went wrong.\nPlease try again</string>
+
+    <string name="search_result_repo_count">%d repository counts</string>
+
 </resources>

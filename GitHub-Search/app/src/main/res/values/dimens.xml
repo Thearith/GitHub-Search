@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="search_item_padding">15dp</dimen>
+    <dimen name="search_item_spacing_small">3dp</dimen>
+    <dimen name="search_item_spacing_medium">5dp</dimen>
+    <dimen name="search_item_spacing_large">10dp</dimen>
+
+</resources>

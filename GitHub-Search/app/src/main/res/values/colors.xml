@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--Theme-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--GitHub Search Item-->
+    <color name="colorGitHubRepoName">#2759D9</color>
+    <color name="colorDivider">#e3e3e3</color>
+
 </resources>

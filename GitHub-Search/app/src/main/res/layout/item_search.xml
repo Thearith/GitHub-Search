@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/search_item_padding"
+    android:paddingBottom="@dimen/search_item_padding">
+
+    <LinearLayout
+        android:id="@+id/ll_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/search_item_spacing_small"
+        android:paddingRight="@dimen/search_item_spacing_small">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_star"
+            android:layout_marginRight="@dimen/search_item_spacing_small"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/tv_github_repo_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@id/ll_star">
+
+        <TextView
+            android:id="@+id/tv_github_repo_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            android:textColor="@color/colorGitHubRepoName"
+            android:layout_marginBottom="@dimen/search_item_spacing_medium"/>
+
+        <TextView
+            android:id="@+id/tv_github_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginBottom="@dimen/search_item_spacing_large"/>
+
+        <TextView
+            android:id="@+id/tv_github_last_updated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+    </LinearLayout>
+
+</RelativeLayout>
