@@ -3,8 +3,8 @@ package thearith.github.com.github_search.presentation.presenter.search
 import android.text.TextUtils
 import io.reactivex.Observable
 import thearith.github.com.github_search.data.search.repository.GitHubSearchRepository
-import thearith.github.com.github_search.presentation.executor.PostExecutionThread
-import thearith.github.com.github_search.presentation.executor.ThreadExecutor
+import thearith.github.com.github_search.presentation.schedulers.PostExecutionThread
+import thearith.github.com.github_search.presentation.schedulers.ThreadExecutor
 import thearith.github.com.github_search.presentation.presenter.base.BasePresenter
 import thearith.github.com.github_search.view.model.SearchFeedResponse
 import thearith.github.com.github_search.view.model.Status
@@ -16,8 +16,10 @@ import javax.inject.Inject
  */
 class MainPresenter : BasePresenter, MainContract.Presenter {
 
+    // Data Source
     private val mGitHubSearchRepository : GitHubSearchRepository
 
+    // States
     private var mPageNumber : Int = 1
 
     @Inject

@@ -21,7 +21,7 @@ import thearith.github.com.github_search.view.model.Status
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import android.support.v7.widget.DividerItemDecoration
-
+import thearith.github.com.github_search.view.utils.formatWithCommas
 
 
 class MainActivity : BaseActivity(), MainContract.View {
@@ -174,7 +174,8 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     private fun showResultCount(count : Int?) {
         val resultStr = getString(R.string.search_result_repo_count)
-        val result = String.format(resultStr, count)
+        val resultCount = count?.formatWithCommas()
+        val result = String.format(resultStr, resultCount)
         mSearchCountTextView.text = result
     }
 

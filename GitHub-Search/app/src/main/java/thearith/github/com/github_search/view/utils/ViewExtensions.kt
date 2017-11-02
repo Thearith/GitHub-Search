@@ -13,7 +13,7 @@ import android.view.ViewGroup
  * Created by Thearith on 9/25/17.
  */
 
-fun ViewGroup.inflate(@LayoutRes layoutId : Int) =
+fun ViewGroup.inflate(@LayoutRes layoutId : Int) : View? =
         LayoutInflater.from(context).inflate(layoutId, this, false)
 
 fun <V : View> Activity.bindView(@IdRes resId : Int) : Lazy<V> {

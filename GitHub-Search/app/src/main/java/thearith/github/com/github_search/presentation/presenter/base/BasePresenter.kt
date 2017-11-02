@@ -2,8 +2,8 @@ package thearith.github.com.github_search.presentation.presenter.base
 
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
-import thearith.github.com.github_search.presentation.executor.PostExecutionThread
-import thearith.github.com.github_search.presentation.executor.ThreadExecutor
+import thearith.github.com.github_search.presentation.schedulers.PostExecutionThread
+import thearith.github.com.github_search.presentation.schedulers.ThreadExecutor
 
 /**
  * [Presenter] that controls communication between views and models of the presentation

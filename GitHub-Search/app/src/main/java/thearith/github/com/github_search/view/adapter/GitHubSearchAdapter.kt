@@ -7,6 +7,8 @@ import android.widget.TextView
 import com.astro.astro.views.utils.inflate
 import thearith.github.com.github_search.R
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchItemModel
+import thearith.github.com.github_search.view.utils.convertToMonthDayYearFormat
+import thearith.github.com.github_search.view.utils.formatWithSuffix
 
 /**
  * Created by Thearith on 11/1/17.
@@ -37,11 +39,19 @@ class GitHubSearchAdapter() :
 
     override fun onBindViewHolder(holder: GitHubSearchViewHolder?, position: Int) {
         val data = mData.get(position)
+        val context = holder?.itemView?.context
 
-        holder?.tvGitHubRepoName?.setText(data.fullName)
-        holder?.tvGitHubRepoDescription?.setText(data.description)
-        holder?.tvGitHubRepoLastUpdated?.setText(data.updatedAt)
-        holder?.tvGitHubRepoStar?.setText(data.stars.toString())
+        val title = data.fullName
+        val description = data.description
+        val updatedAtFormat = context?.getString(R.string.search_result_updated_at)
+        val updatedAtDate = data.updatedAt.convertToMonthDayYearFormat()
+        val updatedAt = updatedAtFormat?.let { String.format(it, updatedAtDate) } ?: updatedAtDate
+        val stars = data.stars.formatWithSuffix()
+
+        holder?.tvGitHubRepoName?.text = title
+        holder?.tvGitHubRepoDescription?.text = description
+        holder?.tvGitHubRepoLastUpdated?.text = updatedAt
+        holder?.tvGitHubRepoStar?.text = stars
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) : GitHubSearchViewHolder {
