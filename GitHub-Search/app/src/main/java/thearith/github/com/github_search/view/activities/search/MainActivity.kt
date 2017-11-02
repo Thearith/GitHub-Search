@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.SearchView
 import com.astro.astro.views.utils.bindView
 import com.astro.astro.views.utils.isAtBottom
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
-import com.jakewharton.rxbinding2.widget.RxSearchView
 import thearith.github.com.github_search.R
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchModel
 import thearith.github.com.github_search.presentation.presenter.search.MainPresenter
@@ -20,14 +18,17 @@ import thearith.github.com.github_search.view.model.Status
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import android.support.v7.widget.DividerItemDecoration
-import thearith.github.com.github_search.view.utils.formatWithCommas
-
+import android.support.v7.widget.SearchView
+import android.widget.ProgressBar
+import com.astro.astro.views.utils.setVisibility
+import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 
 class MainActivity : BaseActivity(), MainContract.View {
 
     // Views
     private val mSearchView : SearchView            by bindView(R.id.search_view)
     private val mSearchRecyclerView : RecyclerView  by bindView(R.id.rc_search)
+    private val mSearchProgressBar : ProgressBar    by bindView(R.id.pb_search)
     private val mWelcomeView : LogoWithTextView     by bindView(R.id.view_welcome)
     private val mErrorView : LogoWithTextView       by bindView(R.id.view_error)
     private val mNoResultView : LogoWithTextView    by bindView(R.id.view_empty_result)
@@ -108,10 +109,8 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun initRecyclerView() {
-        val lLayout = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        mSearchRecyclerView.setHasFixedSize(true)
-        mSearchRecyclerView.setLayoutManager(lLayout)
-
+        mSearchRecyclerView.layoutManager = LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false)
         mSearchRecyclerView.addItemDecoration(DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL))
 
@@ -130,35 +129,26 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun updateUIInIdleMode() {
-        mWelcomeView.visibility = View.VISIBLE
-        mErrorView.visibility = View.GONE
-        mNoResultView.visibility = View.GONE
-        mSearchRecyclerView.visibility = View.GONE
+        updateUIVisibility(Status.IDLE)
     }
 
     private fun updateUIInProgressMode(isRefresh : Boolean) {
-        mWelcomeView.visibility = View.GONE
-        mErrorView.visibility = View.GONE
-        mNoResultView.visibility = View.GONE
-        mSearchRecyclerView.visibility = View.VISIBLE
+        val mode = if(isRefresh) Status.IN_PROGRESS else Status.IN_PROGRESS_WITH_REFRESH
+        updateUIVisibility(mode)
 
         showLoading(true)
-
         if(isRefresh) {
             mSearchAdapter.clearAll()
         }
     }
 
     private fun showLoading(isShown : Boolean) {
-
+        mSearchProgressBar.setVisibility(isShown)
     }
 
     private fun updateUIInCompleteMode(response: SearchFeedResponse) {
-        mWelcomeView.visibility = View.GONE
-        mErrorView.visibility = View.GONE
-        mNoResultView.visibility = View.GONE
-        mSearchRecyclerView.visibility = View.VISIBLE
-
+        updateUIVisibility(Status.COMPLETE)
+        showLoading(false)
         showResultCount(response.response?.totalCount)
         populateList(response.response)
     }
@@ -173,17 +163,29 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun showEmptyResult(message : String) {
-        mWelcomeView.visibility = View.GONE
-        mErrorView.visibility = View.GONE
-        mNoResultView.visibility = View.VISIBLE
-        mSearchRecyclerView.visibility = View.GONE
+        updateUIVisibility(Status.NO_RESULT)
+        showLoading(false)
     }
 
     override fun handleError(errorMsg : String) {
-        mWelcomeView.visibility = View.GONE
-        mErrorView.visibility = View.VISIBLE
-        mNoResultView.visibility = View.GONE
-        mSearchRecyclerView.visibility = View.GONE
+        updateUIVisibility(Status.ERROR)
+        showLoading(false)
+    }
+
+    private fun updateUIVisibility(mode : Status) {
+        val viewList = listOf(mWelcomeView, mErrorView, mNoResultView, mSearchRecyclerView)
+        viewList.forEach { it.setVisibility(false) }
+
+        when(mode) {
+            Status.IDLE         -> mWelcomeView.visibility = View.VISIBLE
+
+            Status.IN_PROGRESS,
+            Status.IN_PROGRESS_WITH_REFRESH,
+            Status.COMPLETE     -> mSearchRecyclerView.visibility = View.VISIBLE
+
+            Status.NO_RESULT    -> mNoResultView.visibility = View.VISIBLE
+            Status.ERROR        -> mErrorView.visibility = View.VISIBLE
+        }
     }
 
 }
