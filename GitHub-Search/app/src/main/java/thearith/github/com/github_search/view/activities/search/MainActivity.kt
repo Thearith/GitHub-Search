@@ -77,7 +77,7 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
     private fun setUpSearchViewTextChangeStream() {
         val searchViewTextChangeStream =
                 RxSearchView.queryTextChanges(mSearchView)
-                        .debounce(100, TimeUnit.MILLISECONDS)
+                        .debounce(300, TimeUnit.MILLISECONDS)
                         .map { it.toString() }
 
         val newSearchStream = searchViewTextChangeStream
