@@ -1,8 +1,8 @@
-package thearith.github.com.github_search.presentation.executor.impl
+package thearith.github.com.github_search.presentation.schedulers.impl
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
-import thearith.github.com.github_search.presentation.executor.PostExecutionThread
+import thearith.github.com.github_search.presentation.schedulers.PostExecutionThread
 import thearith.github.com.github_search.view.internal.di.ApplicationScope
 import javax.inject.Inject
 

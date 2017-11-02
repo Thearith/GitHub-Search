@@ -1,4 +1,4 @@
-package thearith.github.com.github_search.presentation.executor
+package thearith.github.com.github_search.presentation.schedulers
 
 import java.util.concurrent.Executor
 

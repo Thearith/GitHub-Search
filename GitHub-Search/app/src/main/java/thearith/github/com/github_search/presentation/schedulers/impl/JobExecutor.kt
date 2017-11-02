@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package thearith.github.com.github_search.presentation.executor.impl
+package thearith.github.com.github_search.presentation.schedulers.impl
 
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadFactory
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 
 import javax.inject.Inject
 
-import thearith.github.com.github_search.presentation.executor.ThreadExecutor
+import thearith.github.com.github_search.presentation.schedulers.ThreadExecutor
 import thearith.github.com.github_search.view.internal.di.ApplicationScope
 
 /**
