@@ -2,9 +2,10 @@
 <resources>
 
     <!--Theme-->
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3F4952</color>
+    <color name="colorPrimaryDark">#24292F</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorAccent">#1F91DE</color>
 
     <!--GitHub Search Item-->
     <color name="colorGitHubRepoName">#2759D9</color>

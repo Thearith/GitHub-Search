@@ -49,6 +49,7 @@ dependencies {
     implementation dependencies.rxAndroid
     implementation dependencies.rxBinding
     implementation dependencies.rxRecyclerViewBinding
+    implementation dependencies.rxBindingV7Binding
 
     // Network
     implementation dependencies.retrofit

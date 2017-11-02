@@ -1,17 +1,12 @@
 package thearith.github.com.github_search.view.adapter
 
-import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.astro.astro.views.utils.inflate
 import thearith.github.com.github_search.R
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchItemModel
 import thearith.github.com.github_search.view.adapter.viewholders.GitHubSearchHeaderViewHolder
 import thearith.github.com.github_search.view.adapter.viewholders.GitHubSearchViewHolder
-import thearith.github.com.github_search.view.utils.convertToMonthDayYearFormat
-import thearith.github.com.github_search.view.utils.formatWithSuffix
 
 /**
  * Created by Thearith on 11/1/17.
@@ -51,8 +46,10 @@ class GitHubSearchAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             else            0
 
     override fun getItemViewType(position: Int) =
-            if(position == 0) GitHubSearchHeaderViewHolder.getLayoutResource()
-            else GitHubSearchViewHolder.getLayoutResource()
+            if(position == 0)
+                GitHubSearchHeaderViewHolder.getLayoutResource()
+            else
+                GitHubSearchViewHolder.getLayoutResource()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when(position) {

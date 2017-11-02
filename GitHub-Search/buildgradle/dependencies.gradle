@@ -37,6 +37,7 @@ ext {
             rxAndroid               : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
             rxBinding               : "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion",
             rxRecyclerViewBinding   : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxBindingVersion",
+            rxBindingV7Binding      : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion",
 
             retrofit                : "com.squareup.retrofit2:retrofit:$retrofitVersion",
             okHttp3                 : "com.squareup.okhttp3:okhttp:$okHttp3Version",

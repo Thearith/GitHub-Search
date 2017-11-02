@@ -6,4 +6,7 @@
     <dimen name="search_item_spacing_medium">5dp</dimen>
     <dimen name="search_item_spacing_large">10dp</dimen>
 
+    <dimen name="search_view_padding_horizontal">10dp</dimen>
+    <dimen name="search_view_padding_vertical">10dp</dimen>
+
 </resources>
