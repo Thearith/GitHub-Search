@@ -41,6 +41,8 @@ class GitHubSearchAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyItemRangeRemoved(0, size + 1)
     }
 
+    fun isSearchFull() = mData.size == mCount
+
     override fun getItemCount() =
             if(mCount > 0)  mData.size + 1
             else            0

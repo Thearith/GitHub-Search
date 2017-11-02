@@ -89,7 +89,9 @@ class MainActivity : BaseActivity(), MainContract.View {
     private fun setUpRecyclerViewScrollStream() {
         val recyclerViewScrollStream =
                 RxRecyclerView.scrollStateChanges(mSearchRecyclerView)
-                        .map { mSearchRecyclerView.isAtBottom() }
+                        .map { mSearchRecyclerView.isAtBottom() &&
+                                !mSearchAdapter.isSearchFull()
+                        }
                         .distinctUntilChanged()
                         .filter { it }
 
