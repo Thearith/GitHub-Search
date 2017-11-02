@@ -20,6 +20,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    kapt {
+        generateStubs = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -35,11 +42,13 @@ dependencies {
 
     // Dagger 2
     implementation dependencies.dagger2
-    annotationProcessor dependencies.dagger2Apt
+    kapt dependencies.dagger2Apt
 
     // RxJava
     implementation dependencies.rxJava2
     implementation dependencies.rxAndroid
+    implementation dependencies.rxBinding
+    implementation dependencies.rxRecyclerViewBinding
 
     // Network
     implementation dependencies.retrofit

@@ -9,6 +9,7 @@ ext {
     // RxJava
     rxJava2Version              = '2.1.1'
     rxAndroidVersion            = '2.0.1'
+    rxBindingVersion            = '2.0.0'
 
     // Network
     retrofitVersion             = '2.3.0'
@@ -34,10 +35,12 @@ ext {
 
             rxJava2                 : "io.reactivex.rxjava2:rxjava:$rxJava2Version",
             rxAndroid               : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            rxBinding               : "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion",
+            rxRecyclerViewBinding   : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxBindingVersion",
 
             retrofit                : "com.squareup.retrofit2:retrofit:$retrofitVersion",
             okHttp3                 : "com.squareup.okhttp3:okhttp:$okHttp3Version",
-            retrofitRxJava2Adapter  : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+            retrofitRxJava2Adapter  : "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
             retrofitGsonConversion  : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
             okHttp3Interceptor      : "com.squareup.okhttp3:logging-interceptor:$okHttp3Version",
 
