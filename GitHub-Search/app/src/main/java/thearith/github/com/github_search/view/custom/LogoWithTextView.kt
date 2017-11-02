@@ -34,11 +34,11 @@ class LogoWithTextView : LinearLayout {
         setText(text)
     }
 
-    public fun setBackground(@DrawableRes resId : Int) {
+    fun setBackground(@DrawableRes resId : Int) {
         ivLogo.setBackgroundResource(resId)
     }
 
-    public fun setText(message : String) {
+    fun setText(message : String) {
         tvMessage.text = message
     }
 

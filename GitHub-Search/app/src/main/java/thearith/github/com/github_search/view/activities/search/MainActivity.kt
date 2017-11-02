@@ -80,7 +80,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         val disposable = newSearchStream
                     .subscribe(
                             { response -> updateUI(response) },
-                            { error -> handleError(error.localizedMessage) }
+                            { handleError() }
                     )
 
         addDisposable(disposable)
@@ -104,7 +104,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         val disposable = nextSearchStream
                         .subscribe(
                                 { response -> updateUI(response) },
-                                { error -> handleError(error.localizedMessage) }
+                                { handleError() }
                         )
 
         addDisposable(disposable)
@@ -121,20 +121,20 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun updateUI(response: SearchFeedResponse) {
         when(response.status) {
-            Status.IDLE                     -> updateUIInIdleMode()
-            Status.IN_PROGRESS              -> updateUIInProgressMode(false)
-            Status.IN_PROGRESS_WITH_REFRESH -> updateUIInProgressMode(true)
-            Status.COMPLETE                 -> updateUIInCompleteMode(response)
-            Status.NO_RESULT                -> showEmptyResult("EMPTY LOL")
-            Status.ERROR                    -> handleError("Status error")
+            Status.IDLE                     -> showIdleMode()
+            Status.IN_PROGRESS              -> showProgressMode(false)
+            Status.IN_PROGRESS_WITH_REFRESH -> showProgressMode(true)
+            Status.COMPLETE                 -> showCompleteMode(response)
+            Status.NO_RESULT                -> showEmptyResult()
+            Status.ERROR                    -> handleError()
         }
     }
 
-    private fun updateUIInIdleMode() {
+    private fun showIdleMode() {
         updateUIVisibility(Status.IDLE)
     }
 
-    private fun updateUIInProgressMode(isRefresh : Boolean) {
+    private fun showProgressMode(isRefresh : Boolean) {
         val mode = if(isRefresh) Status.IN_PROGRESS else Status.IN_PROGRESS_WITH_REFRESH
         updateUIVisibility(mode)
 
@@ -148,9 +148,10 @@ class MainActivity : BaseActivity(), MainContract.View {
         mSearchProgressBar.setVisibility(isShown)
     }
 
-    private fun updateUIInCompleteMode(response: SearchFeedResponse) {
+    private fun showCompleteMode(response: SearchFeedResponse) {
         updateUIVisibility(Status.COMPLETE)
         showLoading(false)
+
         showResultCount(response.response?.totalCount)
         populateList(response.response)
     }
@@ -164,12 +165,12 @@ class MainActivity : BaseActivity(), MainContract.View {
         mSearchAdapter.addData(searchItemList)
     }
 
-    private fun showEmptyResult(message : String) {
+    private fun showEmptyResult() {
         updateUIVisibility(Status.NO_RESULT)
         showLoading(false)
     }
 
-    override fun handleError(errorMsg : String) {
+    private fun handleError() {
         updateUIVisibility(Status.ERROR)
         showLoading(false)
     }

@@ -11,7 +11,6 @@ interface MainContract {
 
     interface View {
         fun updateUI(response : SearchFeedResponse)
-        fun handleError(errorMsg : String)
     }
 
     interface Presenter {
