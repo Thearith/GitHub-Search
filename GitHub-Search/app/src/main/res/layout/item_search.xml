@@ -12,14 +12,14 @@
         android:layout_alignParentRight="true"
         android:orientation="vertical"
         android:paddingLeft="@dimen/search_item_spacing_small"
-        android:paddingRight="@dimen/search_item_spacing_small">
+        android:paddingRight="@dimen/search_item_spacing_small"
+        android:gravity="center_horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
-            android:layout_marginRight="@dimen/search_item_spacing_small"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_marginBottom="@dimen/search_item_spacing_small" />
 
         <TextView
             android:id="@+id/tv_github_repo_star"
