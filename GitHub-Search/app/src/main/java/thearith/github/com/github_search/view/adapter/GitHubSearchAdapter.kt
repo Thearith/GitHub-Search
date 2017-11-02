@@ -13,8 +13,17 @@ import thearith.github.com.github_search.view.adapter.viewholders.GitHubSearchVi
  */
 class GitHubSearchAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    interface OnClickListener {
+        fun onTitleClick(url : String)
+    }
+
     private var mCount : Int = -1
     private var mData : MutableList<GitHubSearchItemModel> = mutableListOf()
+    private var mClickListener : OnClickListener? = null
+
+    fun setOnClickListener(listener: OnClickListener) {
+        mClickListener = listener
+    }
 
     fun addHeaderCount(count : Int?) {
         if(count != null) {
@@ -63,7 +72,7 @@ class GitHubSearchAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             else -> {
                 val searchItemHolder = holder as GitHubSearchViewHolder
                 val data = mData[position - 1]
-                searchItemHolder.bind(data)
+                searchItemHolder.bind(data, mClickListener)
             }
         }
     }

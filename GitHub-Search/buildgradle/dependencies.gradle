@@ -29,6 +29,7 @@ ext {
             recyclerView            : "com.android.support:recyclerview-v7:$supportLibraryVersion",
             supportV4               : "com.android.support:support-v4:$supportLibraryVersion",
             supportDesign           : "com.android.support:design:$supportLibraryVersion",
+            customTab               : "com.android.support:customtabs:$supportLibraryVersion",
 
             dagger2                 : "com.google.dagger:dagger:$daggerVersion",
             dagger2Apt              : "com.google.dagger:dagger-compiler:$daggerVersion",

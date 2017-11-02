@@ -40,6 +40,9 @@ dependencies {
     implementation dependencies.supportV4
     implementation dependencies.supportDesign
 
+    // Google Custom Tab
+    implementation dependencies.customTab
+
     // Dagger 2
     implementation dependencies.dagger2
     kapt dependencies.dagger2Apt

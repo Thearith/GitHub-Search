@@ -22,8 +22,9 @@ import android.support.v7.widget.SearchView
 import android.widget.ProgressBar
 import com.astro.astro.views.utils.setVisibility
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
+import thearith.github.com.github_search.view.activities.base.goToExternalUrl
 
-class MainActivity : BaseActivity(), MainContract.View {
+class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnClickListener {
 
     // Views
     private val mSearchView : SearchView            by bindView(R.id.search_view)
@@ -38,7 +39,12 @@ class MainActivity : BaseActivity(), MainContract.View {
     lateinit var mPresenter : MainPresenter
 
     // Adapter
-    private val mSearchAdapter : GitHubSearchAdapter by lazy { GitHubSearchAdapter() }
+    private val mSearchAdapter : GitHubSearchAdapter
+            by lazy {
+                GitHubSearchAdapter().apply {
+                    setOnClickListener(this@MainActivity)
+                }
+            }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +90,10 @@ class MainActivity : BaseActivity(), MainContract.View {
                     )
 
         addDisposable(disposable)
+    }
+
+    override fun onTitleClick(url: String) {
+        goToExternalUrl(url)
     }
 
     private fun setUpRecyclerViewScrollStream() {

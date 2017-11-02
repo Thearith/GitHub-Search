@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.astro.astro.views.utils.getString
 import thearith.github.com.github_search.R
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchItemModel
+import thearith.github.com.github_search.view.adapter.GitHubSearchAdapter
 import thearith.github.com.github_search.view.utils.convertToMonthDayYearFormat
 import thearith.github.com.github_search.view.utils.formatWithSuffix
 
@@ -31,7 +32,7 @@ class GitHubSearchViewHolder(itemView : View?) : RecyclerView.ViewHolder(itemVie
             by lazy { itemView?.findViewById(R.id.tv_github_repo_star) as TextView }
 
 
-    fun bind(data : GitHubSearchItemModel) {
+    fun bind(data : GitHubSearchItemModel, listener : GitHubSearchAdapter.OnClickListener?) {
         val title = data.fullName
         val description = data.description
         val updatedAtFormat = getString(R.string.search_result_updated_at)
@@ -43,5 +44,9 @@ class GitHubSearchViewHolder(itemView : View?) : RecyclerView.ViewHolder(itemVie
         tvGitHubRepoDescription.text = description
         tvGitHubRepoLastUpdated.text = updatedAt
         tvGitHubRepoStar.text = stars
+
+        tvGitHubRepoName.setOnClickListener {
+            listener?.onTitleClick(data.htmlUrl)
+        }
     }
 }
