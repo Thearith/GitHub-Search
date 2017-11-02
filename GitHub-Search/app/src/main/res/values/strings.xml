@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GitHub-Search</string>
+    <string name="app_name">GitHub Search</string>
 
     <string name="message_welcome">Welcome to GitHub Search.\n Search your favorite repo</string>
     <string name="message_empty_result">Search result is empty</string>
