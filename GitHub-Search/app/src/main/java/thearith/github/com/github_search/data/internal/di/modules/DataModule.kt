@@ -1,7 +1,9 @@
 package thearith.github.com.github_search.data.internal.di.modules
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
@@ -11,6 +13,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import thearith.github.com.github_search.data.search.repository.GitHubSearchRepository
 import thearith.github.com.github_search.data.search.repository.GitHubSearchRepositoryImpl
+import thearith.github.com.github_search.data.utils.Constants
 import thearith.github.com.github_search.view.internal.di.ApplicationScope
 import thearith.github.com.github_search.view.internal.di.modules.ApplicationModule
 
@@ -54,8 +57,18 @@ class DataModule  {
 
     @Provides
     @ApplicationScope
-    fun providesHttpClient(loggingInterceptor: HttpLoggingInterceptor) : OkHttpClient =
-            OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+    fun providesCache(context : Context) =
+            Cache(context.cacheDir, Constants.CACHE_SIZE)
+
+
+    @Provides
+    @ApplicationScope
+    fun providesHttpClient(loggingInterceptor: HttpLoggingInterceptor,
+                           cache : Cache) : OkHttpClient =
+            OkHttpClient.Builder()
+                    .addInterceptor(loggingInterceptor)
+                    .cache(cache)
+                    .build()
 
     @Provides
     @ApplicationScope
