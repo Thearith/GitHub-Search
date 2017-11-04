@@ -80,21 +80,15 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
     private fun setUpEventStreams() {
         val newSearchStream = getNewSearchStream()
         val nextSearchStream = getNextSearchStream()
+        val searchStream = Observable.merge(newSearchStream, nextSearchStream)
 
-        val disposable = newSearchStream
-                .subscribe(
-                        { response -> updateUI(response) },
-                        { handleError() }
-                )
-
-        val disposable1 = nextSearchStream
+        val disposable = searchStream
                 .subscribe(
                         { response -> updateUI(response) },
                         { handleError() }
                 )
 
         addDisposable(disposable)
-        addDisposable(disposable1)
     }
 
     private fun getNewSearchStream() : Observable<SearchFeedResponse> {
@@ -110,7 +104,16 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
     private fun getNextSearchStream() : Observable<SearchFeedResponse> {
         val recyclerViewScrollStream =
                 RxRecyclerView.scrollEvents(mSearchRecyclerView)
-                        .map { it.view().isAtBottom() && !mSearchAdapter.isSearchFull() }
+                        .filter { it.dy() > 0 }
+                        .map {
+                            val recyclerView = it.view()
+                            val adapter = recyclerView.adapter as GitHubSearchAdapter
+
+                            val isScrolledToBottom = recyclerView.isAtBottom()
+                            val isNextSearchable = !adapter.isSearchFull()
+
+                            isScrolledToBottom && isNextSearchable
+                        }
                         .distinctUntilChanged()
                         .filter { it }
 
