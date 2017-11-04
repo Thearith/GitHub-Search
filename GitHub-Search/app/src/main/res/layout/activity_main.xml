@@ -41,19 +41,19 @@
             android:visibility="gone"
             app:text="@string/message_error"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rc_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/search_item_padding"
-                android:layout_marginRight="@dimen/search_item_padding" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/search_item_padding"
+            android:layout_marginRight="@dimen/search_item_padding" />
 
-            <ProgressBar
-                android:id="@+id/pb_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/search_item_padding"
-                android:layout_gravity="bottom"/>
+        <ProgressBar
+            android:id="@+id/pb_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:layout_gravity="bottom"/>
 
     </FrameLayout>
 

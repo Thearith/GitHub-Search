@@ -136,8 +136,8 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
     override fun updateUI(response: SearchFeedResponse) {
         when(response.status) {
             Status.IDLE                     -> showIdleMode()
-            Status.IN_PROGRESS              -> showProgressMode(false)
-            Status.IN_PROGRESS_WITH_REFRESH -> showProgressMode(true)
+            Status.IN_PROGRESS              -> showProgressMode()
+            Status.IN_PROGRESS_WITH_REFRESH -> showProgressModeWithRefresh()
             Status.COMPLETE                 -> showCompleteMode(response)
             Status.NO_RESULT                -> showEmptyResult()
             Status.ERROR                    -> handleError()
@@ -148,14 +148,14 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
         updateUIVisibility(Status.IDLE)
     }
 
-    private fun showProgressMode(isRefresh : Boolean) {
-        val mode = if(isRefresh) Status.IN_PROGRESS else Status.IN_PROGRESS_WITH_REFRESH
-        updateUIVisibility(mode)
-        expandToolbar()
+    private fun showProgressMode() {
+        updateUIVisibility(Status.IN_PROGRESS)
+    }
 
-        if(isRefresh) {
-            mSearchAdapter.clearAll()
-        }
+    private fun showProgressModeWithRefresh() {
+        updateUIVisibility(Status.IN_PROGRESS_WITH_REFRESH)
+        mSearchAdapter.clearAll()
+        expandToolbar()
     }
 
     private fun expandToolbar() {

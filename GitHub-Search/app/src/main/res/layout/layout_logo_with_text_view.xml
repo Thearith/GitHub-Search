@@ -3,19 +3,19 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="@dimen/github_logo_width"
+        android:layout_height="@dimen/github_logo_height"
         />
 
     <TextView
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textSize="25sp"
+        android:layout_marginTop="@dimen/github_logo_text_margin_vertical"
+        android:layout_marginBottom="@dimen/github_logo_text_margin_vertical"
+        android:layout_marginLeft="@dimen/github_logo_text_margin_horizontal"
+        android:layout_marginRight="@dimen/github_logo_text_margin_horizontal"
+        android:textSize="@dimen/github_logo_text"
         android:layout_gravity="center"
         android:textColor="@android:color/black"
         android:text="Press Search"

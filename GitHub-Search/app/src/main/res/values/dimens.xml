@@ -11,4 +11,11 @@
     <dimen name="search_view_padding_horizontal">10dp</dimen>
     <dimen name="search_view_padding_vertical">10dp</dimen>
 
+    <!--GitHub Logo with Text-->
+    <dimen name="github_logo_width">150dp</dimen>
+    <dimen name="github_logo_height">150dp</dimen>
+    <dimen name="github_logo_text">25sp</dimen>
+    <dimen name="github_logo_text_margin_vertical">15dp</dimen>
+    <dimen name="github_logo_text_margin_horizontal">30dp</dimen>
+
 </resources>
