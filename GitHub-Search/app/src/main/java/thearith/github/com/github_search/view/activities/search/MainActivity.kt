@@ -24,6 +24,7 @@ import android.widget.ProgressBar
 import android.widget.Toolbar
 import com.astro.astro.views.utils.setVisibility
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
+import io.reactivex.Observable
 import thearith.github.com.github_search.view.activities.base.goToExternalUrl
 
 class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnClickListener {
@@ -67,61 +68,56 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
         appComponent?.inject(this)
     }
 
+    override fun onTitleClick(url: String) {
+        goToExternalUrl(url)
+    }
+
 
     /**
      * Sets up event streams
      * */
 
     private fun setUpEventStreams() {
-        setUpSearchViewTextChangeStream()
-        setUpRecyclerViewScrollStream()
+        val newSearchStream = getNewSearchStream()
+        val nextSearchStream = getNextSearchStream()
+
+        val disposable = newSearchStream
+                .subscribe(
+                        { response -> updateUI(response) },
+                        { handleError() }
+                )
+
+        val disposable1 = nextSearchStream
+                .subscribe(
+                        { response -> updateUI(response) },
+                        { handleError() }
+                )
+
+        addDisposable(disposable)
+        addDisposable(disposable1)
     }
 
-    private fun setUpSearchViewTextChangeStream() {
+    private fun getNewSearchStream() : Observable<SearchFeedResponse> {
         val searchViewTextChangeStream =
                 RxSearchView.queryTextChanges(mSearchView)
                         .debounce(400, TimeUnit.MILLISECONDS)
                         .distinctUntilChanged()
                         .map { it.toString() }
 
-        val newSearchStream = searchViewTextChangeStream
-                .switchMap { mPresenter.loadNewSearch(it) }
-
-        val disposable = newSearchStream
-                    .subscribe(
-                            { response -> updateUI(response) },
-                            { handleError() }
-                    )
-
-        addDisposable(disposable)
+        return searchViewTextChangeStream.switchMap { mPresenter.loadNewSearch(it) }
     }
 
-    override fun onTitleClick(url: String) {
-        goToExternalUrl(url)
-    }
-
-    private fun setUpRecyclerViewScrollStream() {
+    private fun getNextSearchStream() : Observable<SearchFeedResponse> {
         val recyclerViewScrollStream =
-                RxRecyclerView.scrollStateChanges(mSearchRecyclerView)
-                        .map { mSearchRecyclerView.isAtBottom() &&
-                                !mSearchAdapter.isSearchFull()
-                        }
+                RxRecyclerView.scrollEvents(mSearchRecyclerView)
+                        .map { it.view().isAtBottom() && !mSearchAdapter.isSearchFull() }
                         .distinctUntilChanged()
                         .filter { it }
 
-        val nextSearchStream = recyclerViewScrollStream
-                .switchMap {
+        return recyclerViewScrollStream.switchMap {
                     val searchParam = mSearchView.query.toString()
                     mPresenter.loadNextSearch(searchParam)
                 }
-
-        val disposable = nextSearchStream
-                        .subscribe(
-                                { response -> updateUI(response) },
-                                { handleError() }
-                        )
-
-        addDisposable(disposable)
     }
 
     private fun initRecyclerView() {
