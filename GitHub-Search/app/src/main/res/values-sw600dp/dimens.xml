@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--GitHub Logo with Text-->
+    <dimen name="github_logo_width">250dp</dimen>
+    <dimen name="github_logo_height">250dp</dimen>
+    <dimen name="github_logo_text">30sp</dimen>
+    <dimen name="github_logo_text_margin_vertical">15dp</dimen>
+    <dimen name="github_logo_text_margin_horizontal">30dp</dimen>
+
+</resources>
