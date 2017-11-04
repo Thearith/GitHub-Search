@@ -1,6 +1,7 @@
 package thearith.github.com.github_search.view.activities.search
 
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -20,6 +21,7 @@ import javax.inject.Inject
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.SearchView
 import android.widget.ProgressBar
+import android.widget.Toolbar
 import com.astro.astro.views.utils.setVisibility
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import thearith.github.com.github_search.view.activities.base.goToExternalUrl
@@ -33,6 +35,7 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
     private val mWelcomeView : LogoWithTextView     by bindView(R.id.view_welcome)
     private val mErrorView : LogoWithTextView       by bindView(R.id.view_error)
     private val mNoResultView : LogoWithTextView    by bindView(R.id.view_empty_result)
+    private val mToolbar : AppBarLayout             by bindView(R.id.appbar_layout)
 
     // Presenter
     @Inject
@@ -77,7 +80,8 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
     private fun setUpSearchViewTextChangeStream() {
         val searchViewTextChangeStream =
                 RxSearchView.queryTextChanges(mSearchView)
-                        .debounce(300, TimeUnit.MILLISECONDS)
+                        .debounce(400, TimeUnit.MILLISECONDS)
+                        .distinctUntilChanged()
                         .map { it.toString() }
 
         val newSearchStream = searchViewTextChangeStream
@@ -147,20 +151,19 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
     private fun showProgressMode(isRefresh : Boolean) {
         val mode = if(isRefresh) Status.IN_PROGRESS else Status.IN_PROGRESS_WITH_REFRESH
         updateUIVisibility(mode)
+        expandToolbar()
 
-        showLoading(true)
         if(isRefresh) {
             mSearchAdapter.clearAll()
         }
     }
 
-    private fun showLoading(isShown : Boolean) {
-        mSearchProgressBar.setVisibility(isShown)
+    private fun expandToolbar() {
+        mToolbar.setExpanded(true, true)
     }
 
     private fun showCompleteMode(response: SearchFeedResponse) {
         updateUIVisibility(Status.COMPLETE)
-        showLoading(false)
 
         showResultCount(response.response?.totalCount)
         populateList(response.response)
@@ -177,23 +180,25 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
 
     private fun showEmptyResult() {
         updateUIVisibility(Status.NO_RESULT)
-        showLoading(false)
     }
 
     private fun handleError() {
         updateUIVisibility(Status.ERROR)
-        showLoading(false)
     }
 
     private fun updateUIVisibility(mode : Status) {
-        val viewList = listOf(mWelcomeView, mErrorView, mNoResultView, mSearchRecyclerView)
+        val viewList = listOf(mWelcomeView, mErrorView, mNoResultView, mSearchRecyclerView, mSearchProgressBar)
         viewList.forEach { it.setVisibility(false) }
 
         when(mode) {
             Status.IDLE         -> mWelcomeView.visibility = View.VISIBLE
 
             Status.IN_PROGRESS,
-            Status.IN_PROGRESS_WITH_REFRESH,
+            Status.IN_PROGRESS_WITH_REFRESH -> {
+                    mSearchRecyclerView.visibility = View.VISIBLE
+                    mSearchProgressBar.visibility = View.VISIBLE
+            }
+
             Status.COMPLETE     -> mSearchRecyclerView.visibility = View.VISIBLE
 
             Status.NO_RESULT    -> mNoResultView.visibility = View.VISIBLE
