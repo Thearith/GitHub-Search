@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
@@ -16,6 +17,7 @@ import thearith.github.com.github_search.data.search.repository.GitHubSearchRepo
 import thearith.github.com.github_search.data.utils.Constants
 import thearith.github.com.github_search.view.internal.di.ApplicationScope
 import thearith.github.com.github_search.view.internal.di.modules.ApplicationModule
+import java.io.File
 
 /**
  * Module that controls dependencies for Data
@@ -48,7 +50,7 @@ class DataModule  {
 
     @Provides
     @ApplicationScope
-    fun providesHttpLogIncepter() : HttpLoggingInterceptor {
+    fun providesHttpLogInterceptor() : HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -57,8 +59,13 @@ class DataModule  {
 
     @Provides
     @ApplicationScope
-    fun providesCache(context : Context) =
-            Cache(context.cacheDir, Constants.CACHE_SIZE)
+    fun providesCacheFile(context : Context) =
+            File(context.cacheDir, Constants.CACHE_FILE_NAME)
+
+    @Provides
+    @ApplicationScope
+    fun providesCache(cacheFile : File) =
+            Cache(cacheFile, Constants.CACHE_SIZE)
 
 
     @Provides
