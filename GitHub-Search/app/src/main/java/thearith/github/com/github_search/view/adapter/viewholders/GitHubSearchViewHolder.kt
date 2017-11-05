@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.astro.astro.views.utils.getString
+import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.Observable
 import thearith.github.com.github_search.R
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchItemModel
 import thearith.github.com.github_search.view.adapter.GitHubSearchAdapter
@@ -32,7 +34,7 @@ class GitHubSearchViewHolder(itemView : View?) : RecyclerView.ViewHolder(itemVie
             by lazy { itemView?.findViewById(R.id.tv_github_repo_star) as TextView }
 
 
-    fun bind(data : GitHubSearchItemModel, listener : GitHubSearchAdapter.OnClickListener?) {
+    fun bind(data : GitHubSearchItemModel) {
         val title = data.fullName
         val description = data.description
         val updatedAtFormat = getString(R.string.search_result_updated_at)
@@ -45,8 +47,11 @@ class GitHubSearchViewHolder(itemView : View?) : RecyclerView.ViewHolder(itemVie
         tvGitHubRepoLastUpdated.text = updatedAt
         tvGitHubRepoStar.text = stars
 
-        tvGitHubRepoName.setOnClickListener {
-            listener?.onTitleClick(data.htmlUrl)
-        }
+        tvGitHubRepoName.tag = data.htmlUrl
     }
+
+    fun getGitHubTitleClickStream() : Observable<String> =
+            RxView.clicks(tvGitHubRepoName)
+                    .map { tvGitHubRepoName }
+                    .map { it.tag as String }
 }

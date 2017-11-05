@@ -26,7 +26,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.Observable
 import thearith.github.com.github_search.view.activities.base.goToExternalUrl
 
-class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnClickListener {
+class MainActivity : BaseActivity(), MainContract.View {
 
     // Views
     private val mSearchView : SearchView            by bindView(R.id.search_view)
@@ -43,11 +43,12 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
 
     // Adapter
     private val mSearchAdapter : GitHubSearchAdapter
-            by lazy {
-                GitHubSearchAdapter().apply {
-                    setOnClickListener(this@MainActivity)
-                }
-            }
+            by lazy { GitHubSearchAdapter() }
+
+
+    /**
+     * Activity's lifecycle
+     * */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,16 +68,17 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
         appComponent?.inject(this)
     }
 
-    override fun onTitleClick(url: String) {
-        goToExternalUrl(url)
-    }
-
 
     /**
      * Sets up event streams
      * */
 
     private fun setUpEventStreams() {
+        setUpSearchEventStream()
+        setUpTitleClickStream()
+    }
+
+    private fun setUpSearchEventStream() {
         val newSearchStream = getNewSearchStream()
         val nextSearchStream = getNextSearchStream()
         val searchStream = Observable.merge(newSearchStream, nextSearchStream)
@@ -120,6 +122,13 @@ class MainActivity : BaseActivity(), MainContract.View, GitHubSearchAdapter.OnCl
                     val searchParam = mSearchView.query.toString()
                     mPresenter.loadNextSearch(searchParam)
                 }
+    }
+
+    private fun setUpTitleClickStream() {
+        val disposable = mSearchAdapter.getTitleClickStream()
+                .subscribe { goToExternalUrl(it) }
+
+        addDisposable(disposable)
     }
 
     private fun initRecyclerView() {
