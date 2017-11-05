@@ -34,3 +34,5 @@ GitHub Search functionalities include:
 2. Retrofit, and okHttp3
 3. Dagger 2
 4. Leak Canary
+
+**PS: Sometimes you will receive an error from searching or scrolling. This is due to GitHub's API limit restriction. In that situation, just leave the application for a minute or two.**
