@@ -110,6 +110,7 @@ class MainActivity : BaseActivity(), MainContract.View {
                         .map { it.toString() }
 
         // SwitchMap is used to discard any previous search response
+        // (as we only need the most recent search query)
         return searchViewTextChangeStream.switchMap {
             mPresenter.loadNewSearch(it)
         }
