@@ -11,7 +11,7 @@ import thearith.github.com.github_search.view.internal.di.modules.ApplicationMod
 import thearith.github.com.github_search.view.activities.search.MainActivity
 
 /**
- * A component whose lifetime is the life of the application.
+ * A Dependency Injection component whose life time is the life of the application.
  */
 
 @ApplicationScope
@@ -21,6 +21,4 @@ interface ApplicationComponent {
     fun context(): Context
 
     fun inject(activity : MainActivity)
-
-    // Inject your dependencies here
 }

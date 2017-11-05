@@ -5,8 +5,6 @@ import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.astro.astro.views.utils.bindView
-import com.astro.astro.views.utils.isAtBottom
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import thearith.github.com.github_search.R
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchModel
@@ -21,34 +19,36 @@ import javax.inject.Inject
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.SearchView
 import android.widget.ProgressBar
-import com.astro.astro.views.utils.setVisibility
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.Observable
 import thearith.github.com.github_search.view.activities.base.goToExternalUrl
+import thearith.github.com.github_search.view.internal.di.components.ApplicationComponent
+import thearith.github.com.github_search.view.utils.bindView
+import thearith.github.com.github_search.view.utils.isScrolledToBottom
+import thearith.github.com.github_search.view.utils.setVisibility
 
+/**
+ * Main application screen. This is the app entry point.
+ * */
 class MainActivity : BaseActivity(), MainContract.View {
 
     // Views
-    private val mSearchView : SearchView            by bindView(R.id.search_view)
-    private val mSearchRecyclerView : RecyclerView  by bindView(R.id.rc_search)
-    private val mSearchProgressBar : ProgressBar    by bindView(R.id.pb_search)
-    private val mWelcomeView : LogoWithTextView     by bindView(R.id.view_welcome)
-    private val mErrorView : LogoWithTextView       by bindView(R.id.view_error)
-    private val mNoResultView : LogoWithTextView    by bindView(R.id.view_empty_result)
-    private val mToolbar : AppBarLayout             by bindView(R.id.appbar_layout)
+    private val mSearchView: SearchView            by bindView(R.id.search_view)
+    private val mSearchRecyclerView: RecyclerView  by bindView(R.id.rc_search)
+    private val mSearchProgressBar: ProgressBar    by bindView(R.id.pb_search)
+    private val mWelcomeView: LogoWithTextView     by bindView(R.id.view_welcome)
+    private val mErrorView: LogoWithTextView       by bindView(R.id.view_error)
+    private val mNoResultView: LogoWithTextView    by bindView(R.id.view_empty_result)
+    private val mToolbar: AppBarLayout             by bindView(R.id.appbar_layout)
 
     // Presenter
     @Inject
-    lateinit var mPresenter : MainPresenter
+    lateinit var mPresenter: MainPresenter
 
     // Adapter
-    private val mSearchAdapter : GitHubSearchAdapter
+    private val mSearchAdapter: GitHubSearchAdapter
             by lazy { GitHubSearchAdapter() }
 
-
-    /**
-     * Activity's lifecycle
-     * */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +63,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         setUpEventStreams()
     }
 
-    override fun injectDependencies() {
-        val appComponent = getApplicationComponent()
+    override fun injectDependencies(appComponent: ApplicationComponent?) {
         appComponent?.inject(this)
     }
 
@@ -72,12 +71,18 @@ class MainActivity : BaseActivity(), MainContract.View {
     /**
      * Sets up event streams
      * */
-
     private fun setUpEventStreams() {
         setUpSearchEventStream()
         setUpTitleClickStream()
     }
 
+    /**
+     * Sets up search event streams and handles according to GitHub search response
+     * Search event stream can come from
+     *      a SearchView query change (newSearchStream)
+     *      a RecyclerView scroll (nextSearchStream)
+     *
+     * */
     private fun setUpSearchEventStream() {
         val newSearchStream = getNewSearchStream()
         val nextSearchStream = getNextSearchStream()
@@ -92,38 +97,61 @@ class MainActivity : BaseActivity(), MainContract.View {
         addDisposable(disposable)
     }
 
-    private fun getNewSearchStream() : Observable<SearchFeedResponse> {
+    /**
+     * Creates a GitHub search stream that originates from user's search query text change
+     *
+     * @return Observable<SearchFeedResponse>
+     * */
+    private fun getNewSearchStream(): Observable<SearchFeedResponse> {
         val searchViewTextChangeStream =
                 RxSearchView.queryTextChanges(mSearchView)
                         .debounce(400, TimeUnit.MILLISECONDS)
                         .distinctUntilChanged()
                         .map { it.toString() }
 
-        return searchViewTextChangeStream.switchMap { mPresenter.loadNewSearch(it) }
+        // SwitchMap is used to discard any previous search response
+        return searchViewTextChangeStream.switchMap {
+            mPresenter.loadNewSearch(it)
+        }
     }
 
-    private fun getNextSearchStream() : Observable<SearchFeedResponse> {
-        val recyclerViewScrollStream =
+    /**
+     * Creates a GitHub search stream that originates from user's search result scroll to bottom
+     * There will not be an event if user has scrolled to the end of the whole result list
+     *
+     * @return Observable<SearchFeedResponse>
+     * */
+    private fun getNextSearchStream(): Observable<SearchFeedResponse> {
+        // RecyclerView stream of user's scrolling to bottom of the list
+        val scrollStream =
                 RxRecyclerView.scrollEvents(mSearchRecyclerView)
                         .filter { it.dy() > 0 }
-                        .map {
-                            val recyclerView = it.view()
-                            val adapter = recyclerView.adapter as GitHubSearchAdapter
-
-                            val isScrolledToBottom = recyclerView.isAtBottom()
-                            val isNextSearchable = !adapter.isSearchFull()
-
-                            isScrolledToBottom && isNextSearchable
-                        }
+                        .filter { it.view().isScrolledToBottom() }
                         .distinctUntilChanged()
-                        .filter { it }
 
-        return recyclerViewScrollStream.switchMap {
-                    val searchParam = mSearchView.query.toString()
-                    mPresenter.loadNextSearch(searchParam)
+        // RecyclerView stream of user's scrolling to bottom of the list
+        // but has not reached the end of the whole GitHub result list
+        val scrollableStream =
+                scrollStream.filter {
+                    val adapter = it.view().adapter as GitHubSearchAdapter
+                    val isNextSearchable = adapter.isSearchFull()
+
+                    isNextSearchable
                 }
+
+        // FlatMap is used so that we do not discard previous search response
+        return scrollableStream.flatMap {
+            val searchParam = mSearchView.query.toString()
+            mPresenter.loadNextSearch(searchParam)
+        }
     }
 
+    /**
+     * Sets up a click stream that comes from user's clicking on a GitHub repo title
+     * Clicking on a GitHub Repo title will navigate to its repository on GitHub
+     * on an external browser (Custom Tab)
+     *
+     * */
     private fun setUpTitleClickStream() {
         val disposable = mSearchAdapter.getTitleClickStream()
                 .subscribe { goToExternalUrl(it) }
@@ -140,8 +168,13 @@ class MainActivity : BaseActivity(), MainContract.View {
         mSearchRecyclerView.adapter = mSearchAdapter
     }
 
+    /**
+     * Updates UI based on GitHub search response
+     *
+     * @param response SearchFeedResponse object that comes from a GitHub search api request
+     * */
     override fun updateUI(response: SearchFeedResponse) {
-        when(response.status) {
+        when (response.status) {
             Status.IDLE                     -> showIdleMode()
             Status.IN_PROGRESS              -> showProgressMode()
             Status.IN_PROGRESS_WITH_REFRESH -> showProgressModeWithRefresh()
@@ -153,6 +186,7 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     private fun showIdleMode() {
         updateUIVisibility(Status.IDLE)
+        expandToolbar()
     }
 
     private fun showProgressMode() {
@@ -176,40 +210,56 @@ class MainActivity : BaseActivity(), MainContract.View {
         populateList(response.response)
     }
 
-    private fun showResultCount(count : Int?) {
+    private fun showResultCount(count: Int?) {
         mSearchAdapter.addHeaderCount(count)
     }
 
-    private fun populateList(response : GitHubSearchModel?) {
+    private fun populateList(response: GitHubSearchModel?) {
         val searchItemList = response?.items
         mSearchAdapter.addData(searchItemList)
     }
 
     private fun showEmptyResult() {
         updateUIVisibility(Status.NO_RESULT)
+        expandToolbar()
     }
 
     private fun handleError() {
         updateUIVisibility(Status.ERROR)
+        expandToolbar()
     }
 
-    private fun updateUIVisibility(mode : Status) {
+    /**
+     * Decides what UI components to show based on the status of GitHub search response
+     *
+     * @param mode Status object of GitHub search api response
+     * */
+    private fun updateUIVisibility(mode: Status) {
         val viewList = listOf(mWelcomeView, mErrorView, mNoResultView, mSearchRecyclerView, mSearchProgressBar)
         viewList.forEach { it.setVisibility(false) }
 
-        when(mode) {
-            Status.IDLE         -> mWelcomeView.visibility = View.VISIBLE
+        when (mode) {
+            Status.IDLE -> {
+                mWelcomeView.visibility = View.VISIBLE
+            }
 
             Status.IN_PROGRESS,
             Status.IN_PROGRESS_WITH_REFRESH -> {
-                    mSearchRecyclerView.visibility = View.VISIBLE
-                    mSearchProgressBar.visibility = View.VISIBLE
+                mSearchProgressBar.visibility = View.VISIBLE
+                mSearchRecyclerView.visibility = View.VISIBLE
             }
 
-            Status.COMPLETE     -> mSearchRecyclerView.visibility = View.VISIBLE
+            Status.COMPLETE -> {
+                mSearchRecyclerView.visibility = View.VISIBLE
+            }
 
-            Status.NO_RESULT    -> mNoResultView.visibility = View.VISIBLE
-            Status.ERROR        -> mErrorView.visibility = View.VISIBLE
+            Status.NO_RESULT -> {
+                mNoResultView.visibility = View.VISIBLE
+            }
+
+            Status.ERROR -> {
+                mErrorView.visibility = View.VISIBLE
+            }
         }
     }
 
