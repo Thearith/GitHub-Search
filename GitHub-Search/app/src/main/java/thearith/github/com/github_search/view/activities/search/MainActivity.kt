@@ -21,7 +21,6 @@ import javax.inject.Inject
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.SearchView
 import android.widget.ProgressBar
-import android.widget.Toolbar
 import com.astro.astro.views.utils.setVisibility
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.Observable

@@ -3,6 +3,12 @@
 
     <dimen name="spacing_large">10dp</dimen>
 
+    <!--Text size-->
+    <dimen name="large_text">22sp</dimen>
+    <dimen name="medium_text">18sp</dimen>
+    <dimen name="small_text">14sp</dimen>
+
+    <!--Search RecyclerView Item-->
     <dimen name="search_item_padding">15dp</dimen>
     <dimen name="search_item_spacing_small">3dp</dimen>
     <dimen name="search_item_spacing_medium">5dp</dimen>
@@ -17,5 +23,7 @@
     <dimen name="github_logo_text">25sp</dimen>
     <dimen name="github_logo_text_margin_vertical">15dp</dimen>
     <dimen name="github_logo_text_margin_horizontal">30dp</dimen>
+    <dimen name="github_toolbar_width">40dp</dimen>
+    <dimen name="github_toolbar_height">40dp</dimen>
 
 </resources>

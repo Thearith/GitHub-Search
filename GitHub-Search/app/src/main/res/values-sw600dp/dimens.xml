@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--Text size-->
+    <dimen name="large_text">30sp</dimen>
+    <dimen name="medium_text">22sp</dimen>
+    <dimen name="small_text">20sp</dimen>
+
+    <!--Search RecyclerView Item-->
+    <dimen name="search_item_padding">25dp</dimen>
+    <dimen name="search_item_spacing_small">5dp</dimen>
+    <dimen name="search_item_spacing_medium">10dp</dimen>
+    <dimen name="search_item_spacing_large">20dp</dimen>
+
     <!--GitHub Logo with Text-->
-    <dimen name="github_logo_width">250dp</dimen>
-    <dimen name="github_logo_height">250dp</dimen>
+    <dimen name="github_logo_width">200dp</dimen>
+    <dimen name="github_logo_height">200dp</dimen>
     <dimen name="github_logo_text">30sp</dimen>
     <dimen name="github_logo_text_margin_vertical">15dp</dimen>
     <dimen name="github_logo_text_margin_horizontal">30dp</dimen>
