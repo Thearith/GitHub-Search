@@ -134,7 +134,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         val scrollableStream =
                 scrollStream.filter {
                     val adapter = it.view().adapter as GitHubSearchAdapter
-                    val isNextSearchable = adapter.isSearchFull()
+                    val isNextSearchable = !adapter.isSearchFull()
 
                     isNextSearchable
                 }
