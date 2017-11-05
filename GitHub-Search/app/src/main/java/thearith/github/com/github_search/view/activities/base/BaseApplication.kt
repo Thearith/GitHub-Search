@@ -2,8 +2,8 @@ package thearith.github.com.github_search.view.activities.base
 
 import android.app.Application
 
-import com.squareup.leakcanary.BuildConfig
 import com.squareup.leakcanary.LeakCanary
+import thearith.github.com.github_search.BuildConfig
 
 import thearith.github.com.github_search.view.internal.di.components.ApplicationComponent
 import thearith.github.com.github_search.view.internal.di.components.DaggerApplicationComponent
