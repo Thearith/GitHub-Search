@@ -1,7 +1,7 @@
 package thearith.github.com.github_search.data.utils
 
 /**
- * Created by Thearith on 11/4/17.
+ * A constant class that stores Data-related constant objects and configurations
  */
 class Constants {
 

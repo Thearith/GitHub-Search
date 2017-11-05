@@ -4,7 +4,8 @@ import thearith.github.com.github_search.data.search.network.GitHubSearchApi
 import javax.inject.Inject
 
 /**
- * Created by Thearith on 10/31/17.
+ * GitHubSearchRepository for fetching GitHubSearchModel
+ * This class coordinates between various data sources (API, Local Db, Memory)
  */
 class GitHubSearchRepositoryImpl : GitHubSearchRepository {
 

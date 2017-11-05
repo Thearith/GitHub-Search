@@ -4,14 +4,13 @@ import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import com.astro.astro.views.utils.getString
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import thearith.github.com.github_search.R
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchItemModel
-import thearith.github.com.github_search.view.adapter.GitHubSearchAdapter
 import thearith.github.com.github_search.view.utils.convertToMonthDayYearFormat
 import thearith.github.com.github_search.view.utils.formatWithSuffix
+import thearith.github.com.github_search.view.utils.getString
 
 class GitHubSearchViewHolder(itemView : View?) : RecyclerView.ViewHolder(itemView) {
 

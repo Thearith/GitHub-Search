@@ -5,9 +5,8 @@ import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 
 
-
 /**
- * Created by Thearith on 11/3/17.
+ * A utility class for navigating user to an external browser using Custom Tab
  */
 
 fun Activity.goToExternalUrl(url : String) {

@@ -6,10 +6,8 @@ import retrofit2.http.Query
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchModel
 
 /**
- * Created by Thearith on 10/31/17.
+ * A Retrofit-based interface that represents GitHub Search requests
  */
-
-
 interface GitHubSearchService {
 
     @GET("search/repositories")

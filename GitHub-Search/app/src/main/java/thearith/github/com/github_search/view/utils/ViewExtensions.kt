@@ -1,4 +1,4 @@
-package com.astro.astro.views.utils
+package thearith.github.com.github_search.view.utils
 
 import android.app.Activity
 import android.support.annotation.IdRes
@@ -10,9 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-/**
- * Created by Thearith on 9/25/17.
- */
 
 fun ViewGroup.inflate(@LayoutRes layoutId : Int) : View? =
         LayoutInflater.from(context).inflate(layoutId, this, false)
@@ -26,8 +23,13 @@ fun View.setVisibility(visible : Boolean) {
     visibility = if(visible) View.VISIBLE else View.GONE
 }
 
-fun RecyclerView.isAtBottom() =
-        !ViewCompat.canScrollVertically(this, 1)
-
 fun RecyclerView.ViewHolder.getString(@StringRes stringRes: Int) =
         itemView.context.getString(stringRes)
+
+/**
+ * Checks if a RecyclerView is already scrolled the bottom
+ *
+ * @return a Boolean object of the specified value
+ * */
+fun RecyclerView.isScrolledToBottom() =
+        !ViewCompat.canScrollVertically(this, 1)

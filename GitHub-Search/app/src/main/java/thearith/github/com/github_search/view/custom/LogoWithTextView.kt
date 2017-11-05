@@ -11,9 +11,9 @@ import android.widget.TextView
 import thearith.github.com.github_search.R
 
 /**
- * Created by Thearith on 11/1/17.
+ * A custom view that consists of a Logo and a message
+ * This custom view is used for showing "Welcome", "No Result", and "Error" message
  */
-
 class LogoWithTextView : LinearLayout {
 
     private val ivLogo : ImageView

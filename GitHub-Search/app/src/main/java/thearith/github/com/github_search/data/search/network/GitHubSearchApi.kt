@@ -8,7 +8,7 @@ import thearith.github.com.github_search.view.internal.di.ApplicationScope
 import javax.inject.Inject
 
 /**
- * Created by Thearith on 10/31/17.
+ * API data source for fetching GitHubSearchModel
  */
 @ApplicationScope
 class GitHubSearchApi : GitHubSearchDataSource {

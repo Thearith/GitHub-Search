@@ -4,10 +4,12 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Created by Thearith on 11/2/17.
- */
 
+/**
+ * Converts date from UTC format to "dd MMM yyyy" format
+ *
+ * @return a date String with "dd MMM yyyy" format
+ * */
 fun String.convertToMonthDayYearFormat() : String {
     val utcFormat = "yyyy-MM-dd'T'hh:mm:ss'Z'"
     val monthDayYearFormat = "dd MMM yyyy"
@@ -20,9 +22,22 @@ fun String.convertToMonthDayYearFormat() : String {
     return monthDateYearDateFormat.format(utcDate)
 }
 
+/**
+ * Represents a number with a comma between every 3 digits
+ * For example, 1200000 will become 1,200,000
+ *
+ * @return a String object of the specified value
+ * */
 fun Int.formatWithCommas() : String =
         NumberFormat.getNumberInstance(Locale.US).format(this)
 
+
+/**
+ * Abbreviates a number with long digits
+ * For example, 1200 will become 1.2k
+ *
+ * @return a String with abbreviated digits
+ * */
 fun Int.formatWithSuffix() : String {
     if (this < 1000) {
         return "" + this

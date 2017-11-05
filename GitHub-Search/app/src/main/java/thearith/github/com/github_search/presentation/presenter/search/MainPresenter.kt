@@ -12,7 +12,8 @@ import thearith.github.com.github_search.view.activities.search.MainContract
 import javax.inject.Inject
 
 /**
- * Created by Thearith on 10/31/17.
+ * Presenter that controls communication between MainActivity (views) and
+ * GitHubSearchRepository (models)
  */
 class MainPresenter : BasePresenter, MainContract.Presenter {
 
@@ -29,11 +30,6 @@ class MainPresenter : BasePresenter, MainContract.Presenter {
         mGitHubSearchRepository = gitHubSearchRepository
     }
 
-
-    /**
-     * UI states
-     * */
-
     private fun initializePageNumber() {
         mPageNumber = 1
     }
@@ -43,6 +39,14 @@ class MainPresenter : BasePresenter, MainContract.Presenter {
     }
 
 
+    /**
+     * Creates a search api request that starts from the start pagination
+     * The stream will be initiated with Status.IN_PROGRESS_WITH_REFRESH
+     * as a notification to show loading progress on UI
+     *
+     * @param searchParam a String search query
+     * @return Observable<SearchFeedResult>
+     * */
     override fun loadNewSearch(searchParam: String) : Observable<SearchFeedResponse> {
         initializePageNumber()
         return loadSearch(searchParam, mPageNumber)
@@ -50,6 +54,14 @@ class MainPresenter : BasePresenter, MainContract.Presenter {
                 .applySchedulers()
     }
 
+    /**
+     * Creates a search api request with the incremented pagination
+     * The stream will be initiated with Status.IN_PROGRESS
+     * as a notification to show loading progress on UI
+     *
+     * @param searchParam a String search query
+     * @return Observable<SearchFeedResult> object
+     * */
     override fun loadNextSearch(searchParam: String) : Observable<SearchFeedResponse> {
         incrementPageNumber()
         return loadSearch(searchParam, mPageNumber)
@@ -57,6 +69,15 @@ class MainPresenter : BasePresenter, MainContract.Presenter {
                 .applySchedulers()
     }
 
+    /**
+     * Creates a search api request from search query and pagination param
+     * If the search query is empty, the stream is just Status.IDLE state
+     * Otherwise, it will return search api response
+     *
+     * @param searchParam a String search query
+     * @param pageNumber pagination param
+     * @return Observable<SearchFeedResult> object
+     * */
     private fun loadSearch(searchParam : String, pageNumber : Int) =
             if(TextUtils.isEmpty(searchParam))
                 loadEmptyQuerySearch()

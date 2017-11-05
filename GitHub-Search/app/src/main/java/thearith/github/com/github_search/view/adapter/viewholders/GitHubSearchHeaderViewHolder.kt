@@ -4,13 +4,10 @@ import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import com.astro.astro.views.utils.getString
 import thearith.github.com.github_search.R
 import thearith.github.com.github_search.view.utils.formatWithCommas
+import thearith.github.com.github_search.view.utils.getString
 
-/**
- * Created by Thearith on 11/2/17.
- */
 class GitHubSearchHeaderViewHolder(itemView : View?) : RecyclerView.ViewHolder(itemView) {
 
     companion object {

@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import thearith.github.com.github_search.data.search.network.search.model.GitHubSearchModel
 
 /**
- * Created by Thearith on 10/31/17.
+ * Interface that represents a Repository for getting {@link GitHubSearchModel} related data.
  */
 interface GitHubSearchRepository {
 
