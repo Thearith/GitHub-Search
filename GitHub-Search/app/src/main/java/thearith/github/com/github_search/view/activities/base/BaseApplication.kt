@@ -31,7 +31,9 @@ class BaseApplication : Application() {
             return
         }
 
-        LeakCanary.install(this)
+        if(BuildConfig.DEBUG) {
+            LeakCanary.install(this)
+        }
     }
 
 
