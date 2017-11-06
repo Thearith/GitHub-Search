@@ -21,6 +21,7 @@ GitHub Search functionalities include:
 
 #### Error
 <img src="https://github.com/Thearith/GitHub-Search/blob/master/screenshots/Error.png">
+
 **PS: Sometimes you will receive an error from searching or scrolling. This is due to GitHub's API limit restriction. In that situation, just leave the application for a minute or two.**
 
 ## System requirements
