@@ -21,12 +21,13 @@ GitHub Search functionalities include:
 
 #### Error
 <img src="https://github.com/Thearith/GitHub-Search/blob/master/screenshots/Error.png">
+**PS: Sometimes you will receive an error from searching or scrolling. This is due to GitHub's API limit restriction. In that situation, just leave the application for a minute or two.**
 
 ## System requirements
 
 1. Android Studio 3
 2. Gradle version 3.0.0
-3. Minimum Sdk 16
+3. Minimum SDK 16
 
 ## Third party libraries
 
@@ -34,5 +35,3 @@ GitHub Search functionalities include:
 2. Retrofit, and okHttp3
 3. Dagger 2
 4. Leak Canary
-
-**PS: Sometimes you will receive an error from searching or scrolling. This is due to GitHub's API limit restriction. In that situation, just leave the application for a minute or two.**
