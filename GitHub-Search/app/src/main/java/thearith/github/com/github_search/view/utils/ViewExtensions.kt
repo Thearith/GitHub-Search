@@ -4,7 +4,7 @@ import android.app.Activity
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
-import android.support.v4.view.ViewCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -31,5 +31,11 @@ fun RecyclerView.ViewHolder.getString(@StringRes stringRes: Int) =
  *
  * @return a Boolean object of the specified value
  * */
-fun RecyclerView.isScrolledToBottom() =
-        !ViewCompat.canScrollVertically(this, 1)
+fun RecyclerView.isScrolledToBottom() : Boolean {
+    val llManager = layoutManager as LinearLayoutManager
+    val visibleItemCount = llManager.childCount
+    val firstVisibleItem = llManager.findFirstVisibleItemPosition()
+    val totalItemCount = llManager.itemCount
+
+    return firstVisibleItem + visibleItemCount >= totalItemCount - Constants.LAST_ITEMS_COUNT
+}

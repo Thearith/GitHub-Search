@@ -23,6 +23,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.Observable
 import thearith.github.com.github_search.view.activities.base.goToExternalUrl
 import thearith.github.com.github_search.view.internal.di.components.ApplicationComponent
+import thearith.github.com.github_search.view.model.viewevents.RecyclerViewScrollBottomEvent
 import thearith.github.com.github_search.view.utils.bindView
 import thearith.github.com.github_search.view.utils.isScrolledToBottom
 import thearith.github.com.github_search.view.utils.setVisibility
@@ -127,14 +128,18 @@ class MainActivity : BaseActivity(), MainContract.View {
         val scrollStream =
                 RxRecyclerView.scrollEvents(mSearchRecyclerView)
                         .filter { it.dy() > 0 }
-                        .filter { it.view().isScrolledToBottom() }
-                        .distinctUntilChanged()
+                        .map {
+                            val isBottom = it.view().isScrolledToBottom()
+                            RecyclerViewScrollBottomEvent(it, isBottom)
+                        }
+                        .distinctUntilChanged { x, y -> x.isScrolledToBottom == y.isScrolledToBottom }
+                        .filter { it.isScrolledToBottom }
 
         // RecyclerView stream of user's scrolling to bottom of the list
         // but has not reached the end of the whole GitHub result list
         val scrollableStream =
                 scrollStream.filter {
-                    val adapter = it.view().adapter as GitHubSearchAdapter
+                    val adapter = it.event.view().adapter as GitHubSearchAdapter
                     val isNextSearchable = !adapter.isSearchFull()
 
                     isNextSearchable
