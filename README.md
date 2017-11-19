@@ -14,7 +14,7 @@ GitHub Search functionalities include:
 <img src="https://github.com/Thearith/GitHub-Search/blob/master/screenshots/Welcome.png">
 
 #### Search results
-<img src="https://github.com/Thearith/GitHub-Search/blob/master/screenshots/Search%20results.png">
+![](https://github.com/Thearith/GitHub-Search/blob/master/screenshots/Scrolling.gif)
 
 #### No result
 <img src="https://github.com/Thearith/GitHub-Search/blob/master/screenshots/No%20result.png">
